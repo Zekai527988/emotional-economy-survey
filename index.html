@@ -7,9 +7,9 @@
 
 <title>数字情绪经济研究项目</title>
 
-<style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-/* 页面 */
+<style>
 
 body{
 font-family:"Microsoft YaHei",sans-serif;
@@ -17,16 +17,12 @@ background:#f3f4f6;
 margin:0;
 }
 
-/* 头部 */
-
 header{
 background:#111;
 color:white;
 padding:30px;
 text-align:center;
 }
-
-/* 导航 */
 
 nav{
 background:#e5e7eb;
@@ -42,10 +38,7 @@ border-radius:6px;
 padding:10px 20px;
 margin:5px;
 cursor:pointer;
-font-size:14px;
 }
-
-/* 页面区域 */
 
 section{
 display:none;
@@ -58,13 +51,9 @@ border-radius:10px;
 box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-/* 默认页面 */
-
 #intro{
 display:block;
 }
-
-/* 表单 */
 
 label{
 display:block;
@@ -78,11 +67,6 @@ padding:10px;
 margin-top:6px;
 border:1px solid #ccc;
 border-radius:6px;
-font-size:14px;
-}
-
-textarea{
-min-height:80px;
 }
 
 button.submit{
@@ -92,22 +76,12 @@ color:white;
 border:none;
 border-radius:8px;
 padding:14px 24px;
-font-size:16px;
 cursor:pointer;
 }
 
-/* 成功提示 */
-
-#success{
-display:none;
-margin-top:20px;
-background:#d1fae5;
-padding:15px;
-border-radius:6px;
-color:#065f46;
+canvas{
+margin-top:30px;
 }
-
-/* 页脚 */
 
 footer{
 text-align:center;
@@ -120,30 +94,25 @@ color:#666;
 
 </head>
 
-
-
 <body>
-
 
 <header>
 
 <h1>数字情绪经济研究项目</h1>
 
-<p>直播刷礼物行为、情绪价值与数字亲密关系调查</p>
+<p>直播刷礼物行为与情绪经济调查</p>
 
 </header>
 
-
-
 <nav>
 
-<button type="button" onclick="showPage('intro')">研究介绍</button>
+<button onclick="showPage('intro')">研究介绍</button>
 
-<button type="button" onclick="showPage('survey')">在线问卷</button>
+<button onclick="showPage('survey')">在线问卷</button>
+
+<button onclick="showPage('stats')">数据统计</button>
 
 </nav>
-
-
 
 <!-- 研究介绍 -->
 
@@ -153,17 +122,19 @@ color:#666;
 
 <p>
 
-本研究探索直播平台中的 <b>情绪经济（Emotional Economy）</b>。
+本研究探索直播平台中的
+
+<b>情绪经济（Emotional Economy）</b>。
 
 </p>
 
 <p>
 
-在直播互动中，观众通过礼物或打榜提供经济支持，
+观众通过礼物提供经济支持，
 
-主播通过互动回应提供情绪价值，
+主播通过互动提供情绪价值，
 
-从而形成一种特殊的数字亲密关系。
+形成一种数字亲密关系。
 
 </p>
 
@@ -173,19 +144,17 @@ color:#666;
 
 <li>直播带来什么情绪价值？</li>
 
-<li>直播关系是否影响现实情感关系？</li>
+<li>这种关系是否影响现实情感？</li>
 
 </ul>
 
 <p>
 
-本问卷完全匿名，仅用于学术研究。
+问卷完全匿名，仅用于学术研究。
 
 </p>
 
 </section>
-
-
 
 <!-- 问卷 -->
 
@@ -208,7 +177,7 @@ onsubmit="submitForm()"
 >
 
 <label>年龄</label>
-<input type="number" name="age" required>
+<input type="number" name="age">
 
 <label>性别</label>
 <select name="gender">
@@ -236,10 +205,10 @@ onsubmit="submitForm()"
 <option>否</option>
 </select>
 
-<label>累计刷礼物金额（人民币）</label>
+<label>累计刷礼物金额</label>
 <input type="number" name="money">
 
-<label>刷礼物主要原因</label>
+<label>刷礼物原因</label>
 <select name="reason">
 <option>支持主播</option>
 <option>陪伴感</option>
@@ -249,33 +218,29 @@ onsubmit="submitForm()"
 <option>其他</option>
 </select>
 
-<label>直播是否提供陪伴感 (1-10)</label>
-<input type="number" min="1" max="10" name="emotion">
-
-<label>印象最深的一次刷礼物经历</label>
-<textarea name="experience"></textarea>
-
-<label>你对当前直播生态有什么看法</label>
-<textarea name="opinion"></textarea>
-
-<label>如果可以改进直播平台，你有什么建议</label>
-<textarea name="suggestion"></textarea>
-
 <button class="submit" type="submit">提交问卷</button>
 
 </form>
 
-<div id="success">
-
-感谢你的参与！问卷已成功提交。
-
+<div id="success" style="display:none;color:green;margin-top:15px;">
+感谢参与！问卷已提交。
 </div>
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 </section>
 
+<!-- 数据统计 -->
 
+<section id="stats">
+
+<h2>数据统计</h2>
+
+<canvas id="platformChart"></canvas>
+
+<canvas id="reasonChart"></canvas>
+
+</section>
 
 <footer>
 
@@ -283,23 +248,17 @@ Digital Emotional Economy Research Project
 
 </footer>
 
-
-
 <script>
-
-/* 页面切换 */
 
 function showPage(page){
 
 document.getElementById("intro").style.display="none";
 document.getElementById("survey").style.display="none";
+document.getElementById("stats").style.display="none";
 
 document.getElementById(page).style.display="block";
 
 }
-
-
-/* 提交成功提示 */
 
 function submitForm(){
 
@@ -312,9 +271,59 @@ document.getElementById("surveyForm").reset();
 
 }
 
+/* 数据统计 */
+
+fetch("https://opensheet.elk.sh/YOUR_SHEET_ID/Sheet1")
+
+.then(res => res.json())
+
+.then(data => {
+
+let platform = {};
+let reason = {};
+
+data.forEach(row=>{
+
+platform[row.platform] = (platform[row.platform]||0)+1;
+reason[row.reason] = (reason[row.reason]||0)+1;
+
+});
+
+/* 平台统计 */
+
+new Chart(document.getElementById("platformChart"),{
+
+type:"bar",
+
+data:{
+labels:Object.keys(platform),
+datasets:[{
+label:"观看平台分布",
+data:Object.values(platform)
+}]
+}
+
+});
+
+/* 刷礼物原因 */
+
+new Chart(document.getElementById("reasonChart"),{
+
+type:"bar",
+
+data:{
+labels:Object.keys(reason),
+datasets:[{
+label:"刷礼物原因",
+data:Object.values(reason)
+}]
+}
+
+});
+
+});
+
 </script>
-
-
 
 </body>
 </html>
