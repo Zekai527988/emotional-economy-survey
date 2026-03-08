@@ -9,7 +9,7 @@
 
 <style>
 
-/* 页面基础 */
+/* 页面 */
 
 body{
 font-family:"Microsoft YaHei",sans-serif;
@@ -20,32 +20,32 @@ margin:0;
 /* 头部 */
 
 header{
-padding:30px;
-text-align:center;
 background:#111;
 color:white;
+padding:30px;
+text-align:center;
 }
 
 /* 导航 */
 
 nav{
-padding:15px;
-text-align:center;
 background:#e5e7eb;
+text-align:center;
+padding:15px;
 }
 
 nav button{
-margin:6px;
-padding:10px 20px;
-border:none;
-border-radius:6px;
 background:#2563eb;
 color:white;
+border:none;
+border-radius:6px;
+padding:10px 20px;
+margin:5px;
 cursor:pointer;
-font-size:15px;
+font-size:14px;
 }
 
-/* 内容区域 */
+/* 页面区域 */
 
 section{
 display:none;
@@ -68,7 +68,7 @@ display:block;
 
 label{
 display:block;
-margin-top:20px;
+margin-top:18px;
 font-weight:600;
 }
 
@@ -79,47 +79,47 @@ margin-top:6px;
 border:1px solid #ccc;
 border-radius:6px;
 font-size:14px;
-background:white;
 }
 
 textarea{
-min-height:90px;
+min-height:80px;
 }
 
 button.submit{
 margin-top:25px;
-padding:14px 24px;
-font-size:16px;
-border:none;
-border-radius:8px;
 background:#2563eb;
 color:white;
+border:none;
+border-radius:8px;
+padding:14px 24px;
+font-size:16px;
 cursor:pointer;
 }
 
 /* 成功提示 */
 
-#successMsg{
+#success{
 display:none;
 margin-top:20px;
-padding:15px;
 background:#d1fae5;
-color:#065f46;
+padding:15px;
 border-radius:6px;
+color:#065f46;
 }
 
 /* 页脚 */
 
 footer{
 text-align:center;
+margin-top:40px;
 padding:30px;
 color:#666;
-margin-top:30px;
 }
 
 </style>
 
 </head>
+
 
 
 <body>
@@ -153,9 +153,7 @@ margin-top:30px;
 
 <p>
 
-本研究旨在探索直播平台中的
-
-<b>情绪经济（Emotional Economy）</b>现象。
+本研究探索直播平台中的 <b>情绪经济（Emotional Economy）</b>。
 
 </p>
 
@@ -163,9 +161,9 @@ margin-top:30px;
 
 在直播互动中，观众通过礼物或打榜提供经济支持，
 
-而主播通过互动回应提供情绪价值，
+主播通过互动回应提供情绪价值，
 
-从而形成一种特殊的数字互动关系。
+从而形成一种特殊的数字亲密关系。
 
 </p>
 
@@ -175,13 +173,13 @@ margin-top:30px;
 
 <li>直播带来什么情绪价值？</li>
 
-<li>直播形成的数字亲密关系是否影响现实关系？</li>
+<li>直播关系是否影响现实情感关系？</li>
 
 </ul>
 
 <p>
 
-本问卷完全匿名，所有数据仅用于学术研究。
+本问卷完全匿名，仅用于学术研究。
 
 </p>
 
@@ -189,7 +187,7 @@ margin-top:30px;
 
 
 
-<!-- 调查问卷 -->
+<!-- 问卷 -->
 
 <section id="survey">
 
@@ -205,112 +203,73 @@ action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53
 
 target="hidden_iframe"
 
-onsubmit="handleSubmit()"
+onsubmit="submitForm()"
 
 >
 
 <label>年龄</label>
 <input type="number" name="age" required>
 
-
 <label>性别</label>
-
 <select name="gender">
-
 <option>男</option>
-
 <option>女</option>
-
 <option>其他</option>
-
 <option>不愿透露</option>
-
 </select>
-
 
 <label>所在地区</label>
 <input type="text" name="region">
 
-
 <label>最常观看平台</label>
-
 <select name="platform">
-
 <option>抖音</option>
-
 <option>B站</option>
-
 <option>Twitch</option>
-
 <option>快手</option>
-
 <option>其他</option>
-
 </select>
-
 
 <label>是否刷过礼物</label>
-
 <select name="gift">
-
 <option>是</option>
-
 <option>否</option>
-
 </select>
-
 
 <label>累计刷礼物金额（人民币）</label>
 <input type="number" name="money">
 
-
 <label>刷礼物主要原因</label>
-
 <select name="reason">
-
 <option>支持主播</option>
-
 <option>陪伴感</option>
-
 <option>PK竞争</option>
-
 <option>社群认同</option>
-
 <option>情绪补偿</option>
-
 <option>其他</option>
-
 </select>
-
 
 <label>直播是否提供陪伴感 (1-10)</label>
 <input type="number" min="1" max="10" name="emotion">
 
-
-<label>如果可以，请分享你印象最深的一次刷礼物经历</label>
+<label>印象最深的一次刷礼物经历</label>
 <textarea name="experience"></textarea>
-
 
 <label>你对当前直播生态有什么看法</label>
 <textarea name="opinion"></textarea>
 
-
 <label>如果可以改进直播平台，你有什么建议</label>
 <textarea name="suggestion"></textarea>
-
 
 <button class="submit" type="submit">提交问卷</button>
 
 </form>
 
+<div id="success">
 
-
-<div id="successMsg">
-
-感谢你的参与！问卷已经成功提交。
+感谢你的参与！问卷已成功提交。
 
 </div>
-
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
@@ -332,27 +291,24 @@ Digital Emotional Economy Research Project
 
 function showPage(page){
 
-document.getElementById("intro").style.display="none"
+document.getElementById("intro").style.display="none";
+document.getElementById("survey").style.display="none";
 
-document.getElementById("survey").style.display="none"
-
-document.getElementById(page).style.display="block"
+document.getElementById(page).style.display="block";
 
 }
 
 
-
 /* 提交成功提示 */
 
-function handleSubmit(){
+function submitForm(){
 
 setTimeout(function(){
 
-document.getElementById("successMsg").style.display="block"
+document.getElementById("success").style.display="block";
+document.getElementById("surveyForm").reset();
 
-document.getElementById("surveyForm").reset()
-
-},500)
+},500);
 
 }
 
@@ -361,5 +317,4 @@ document.getElementById("surveyForm").reset()
 
 
 </body>
-
 </html>
