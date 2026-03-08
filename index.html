@@ -4,7 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>数字情绪经济研究项目</title>
+<title>Digital Emotional Economy Research</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -101,6 +101,15 @@ padding:30px;
 color:#666;
 }
 
+.model{
+margin-top:30px;
+padding:20px;
+background:#f0f4ff;
+border-radius:8px;
+text-align:center;
+font-size:18px;
+}
+
 </style>
 
 </head>
@@ -112,7 +121,6 @@ color:#666;
 <header>
 
 <h1>Digital Emotional Economy Research</h1>
-
 <p>直播刷客行为与数字亲密关系研究</p>
 
 </header>
@@ -127,46 +135,31 @@ color:#666;
 </nav>
 
 
+
 <section id="intro">
 
 <h2>研究介绍</h2>
 
 <p>
 
-本研究关注直播平台中的情绪经济（Emotional Economy）现象。
+本研究探索直播平台中的 <b>情绪经济（Emotional Economy）</b> 现象。
 
 观众通过虚拟礼物提供经济支持，而主播通过互动回应提供情绪价值。
 
 </p>
 
-<p>
-
-研究重点：
-
-</p>
-
 <ul>
 
-<li>为什么用户会刷礼物</li>
-
+<li>为什么观众会刷礼物</li>
 <li>直播互动如何形成数字亲密关系</li>
-
 <li>这种关系是否影响现实情感互动</li>
 
 </ul>
 
-<p>
+<p>本问卷完全匿名，仅用于学术研究。</p>
 
-本问卷完全匿名，仅用于学术研究。
-
-</p>
-
-<br>
-
-<a href="paper.pdf" target="_blank">
-
+<a href="情绪价值的市场化：直播平台刷客行为与数字亲密关系——兼论其对当代亲密关系结构的启示.pdf" target="_blank">
 <button>下载论文 PDF</button>
-
 </a>
 
 </section>
@@ -177,14 +170,13 @@ color:#666;
 
 <h2>在线调查问卷</h2>
 
+<a href="paper.pdf" target="_blank">下载论文 PDF</a>
+
 <form
 
 method="POST"
-
-action="YOUR_GOOGLE_SCRIPT_URL"
-
+action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53CTpj_rPOrr_5wkwAUYtrpkC21INSy_jc4Bsbg/exec"
 target="hidden_iframe"
-
 onsubmit="submitForm()"
 
 >
@@ -221,7 +213,7 @@ onsubmit="submitForm()"
 <label>累计刷礼物金额</label>
 <input type="number" name="money">
 
-<label>刷礼物主要原因</label>
+<label>刷礼物原因</label>
 <select name="reason">
 <option>支持主播</option>
 <option>陪伴感</option>
@@ -232,7 +224,7 @@ onsubmit="submitForm()"
 </select>
 
 <label>直播是否提供陪伴感 (1-10)</label>
-<input type="number" min="1" max="10" name="emotion">
+<input type="number" name="emotion" min="1" max="10">
 
 <label>请分享你印象最深的一次刷礼物经历</label>
 <textarea name="experience"></textarea>
@@ -265,9 +257,25 @@ onsubmit="submitForm()"
 
 <canvas id="reasonChart"></canvas>
 
+<canvas id="moneyChart"></canvas>
+
+<canvas id="emotionChart"></canvas>
+
 <h2>用户地区分布</h2>
 
 <div id="map"></div>
+
+<h2>刷客行为模型</h2>
+
+<div class="model">
+
+经济支持 → 情绪反馈 → 身份认同 → 持续互动
+
+<br><br>
+
+Relationship Value = Emotional Value + Identity Recognition
+
+</div>
 
 </section>
 
@@ -285,11 +293,11 @@ Digital Emotional Economy Research Project
 
 function showPage(page){
 
-document.getElementById("intro").style.display="none";
-document.getElementById("survey").style.display="none";
-document.getElementById("stats").style.display="none";
+document.getElementById("intro").style.display="none"
+document.getElementById("survey").style.display="none"
+document.getElementById("stats").style.display="none"
 
-document.getElementById(page).style.display="block";
+document.getElementById(page).style.display="block"
 
 }
 
@@ -297,7 +305,7 @@ function submitForm(){
 
 setTimeout(function(){
 
-document.getElementById("success").style.display="block";
+document.getElementById("success").style.display="block"
 
 },500)
 
@@ -305,9 +313,9 @@ document.getElementById("success").style.display="block";
 
 
 
-/* 读取GoogleSheet数据 */
+/* 读取 Google Sheet */
 
-fetch("https://opensheet.elk.sh/YOUR_SHEET_ID/Sheet1")
+fetch("https://opensheet.elk.sh/151cidcW8JdLFzd2AS8UNCqRPBgfwpaauDOk0I8aKwisIocWwDQLc7JFk/工作表1")
 
 .then(res=>res.json())
 
@@ -315,53 +323,59 @@ fetch("https://opensheet.elk.sh/YOUR_SHEET_ID/Sheet1")
 
 let platform={}
 let reason={}
+let money={}
+let emotion={}
 
 data.forEach(row=>{
 
 platform[row.platform]=(platform[row.platform]||0)+1
 reason[row.reason]=(reason[row.reason]||0)+1
+money[row.money]=(money[row.money]||0)+1
+emotion[row.emotion]=(emotion[row.emotion]||0)+1
 
 })
 
-new Chart(document.getElementById("platformChart"),{
-
+new Chart(platformChart,{
 type:"bar",
-
-data:{
-labels:Object.keys(platform),
-datasets:[{
-label:"观看平台分布",
-data:Object.values(platform)
-}]
-}
-
+data:{labels:Object.keys(platform),
+datasets:[{label:"观看平台分布",data:Object.values(platform)}]}
 })
 
-new Chart(document.getElementById("reasonChart"),{
-
+new Chart(reasonChart,{
 type:"bar",
-
-data:{
-labels:Object.keys(reason),
-datasets:[{
-label:"刷礼物原因",
-data:Object.values(reason)
-}]
-}
-
+data:{labels:Object.keys(reason),
+datasets:[{label:"刷礼物原因",data:Object.values(reason)}]}
 })
 
+new Chart(moneyChart,{
+type:"bar",
+data:{labels:Object.keys(money),
+datasets:[{label:"消费金额分布",data:Object.values(money)}]}
 })
 
-
+new Chart(emotionChart,{
+type:"bar",
+data:{labels:Object.keys(emotion),
+datasets:[{label:"情绪价值评分",data:Object.values(emotion)}]}
+})
 
 /* 地图 */
 
-var map = L.map('map').setView([30, 110], 3)
+var map = L.map('map').setView([30,110],3)
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
 
-}).addTo(map)
+data.forEach(row=>{
+
+if(row.region){
+
+L.marker([30,110]).addTo(map).bindPopup(row.region)
+
+}
+
+})
+
+})
 
 </script>
 
