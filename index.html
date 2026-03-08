@@ -1,17 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
 <meta charset="UTF-8">
 <title>数字情绪经济研究项目</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 body{
-font-family:"Microsoft YaHei","Noto Sans CJK JP",sans-serif;
+font-family:"Microsoft YaHei",sans-serif;
 background:#f3f4f6;
 margin:0;
 }
+
+/* 头部 */
 
 header{
 padding:30px;
@@ -19,6 +21,8 @@ text-align:center;
 background:#111;
 color:white;
 }
+
+/* 导航 */
 
 nav{
 padding:12px;
@@ -28,38 +32,56 @@ background:#e5e7eb;
 
 nav button{
 margin:5px;
-padding:8px 16px;
+padding:10px 18px;
 border:none;
 border-radius:6px;
 cursor:pointer;
+background:#2563eb;
+color:white;
+font-size:14px;
 }
+
+/* 页面区域 */
 
 section{
 display:none;
-max-width:1100px;
+max-width:900px;
 margin:auto;
-margin-top:20px;
+margin-top:30px;
 background:white;
 padding:40px;
 border-radius:10px;
 box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.active{display:block}
+.active{
+display:block;
+}
 
-label{display:block;margin-top:14px;font-weight:600}
+/* 表单 */
+
+label{
+display:block;
+margin-top:18px;
+font-weight:600;
+}
 
 input,select,textarea{
 width:100%;
-padding:8px;
+padding:10px;
 margin-top:6px;
 border:1px solid #ccc;
 border-radius:6px;
+font-size:14px;
+}
+
+textarea{
+min-height:80px;
 }
 
 button.submit{
-margin-top:20px;
-padding:12px 20px;
+margin-top:25px;
+padding:14px 22px;
 font-size:16px;
 border:none;
 border-radius:8px;
@@ -68,25 +90,51 @@ background:#2563eb;
 color:white;
 }
 
+/* 成功提示 */
+
+#successMsg{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#d1fae5;
+color:#065f46;
+border-radius:6px;
+}
+
+/* 页脚 */
+
 footer{
 text-align:center;
-padding:20px;
+padding:25px;
 color:#666;
+margin-top:30px;
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
+
 <h1>数字情绪经济研究项目</h1>
+
 <p>直播刷礼物行为、情绪价值与数字亲密关系调查</p>
+
 </header>
 
+
 <nav>
+
 <button onclick="showPage('intro')">研究介绍</button>
+
 <button onclick="showPage('survey')">在线问卷</button>
+
 </nav>
+
+
+
+<!-- 研究介绍 -->
 
 <section id="intro" class="active">
 
@@ -94,90 +142,198 @@ color:#666;
 
 <p>
 本研究探索直播平台中的 <b>情绪经济（Emotional Economy）</b>。
-观众通过礼物或打榜提供经济支持，而主播通过互动回应提供情绪价值。
+</p>
+
+<p>
+观众通过礼物或打榜提供经济支持，而主播通过互动回应提供情绪价值，
+从而形成一种特殊的数字互动关系。
 </p>
 
 <ul>
+
 <li>为什么观众会刷礼物？</li>
+
 <li>直播带来什么情绪价值？</li>
-<li>直播关系形成的数字亲密关系是否对现实情感关系产生了影响？</li>
+
+<li>直播形成的数字亲密关系是否影响现实关系？</li>
+
 </ul>
 
 <p>
-问卷数据匿名，仅用于学术研究。
+本问卷完全匿名，所有数据仅用于学术研究。
 </p>
 
 </section>
 
+
+
+<!-- 调查问卷 -->
 
 <section id="survey">
 
 <h2>在线调查问卷</h2>
 
-<form 
+<form id="surveyForm"
+
 method="POST"
+
 action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53CTpj_rPOrr_5wkwAUYtrpkC21INSy_jc4Bsbg/exec"
+
 target="hidden_iframe"
-onsubmit="alert('提交成功，感谢参与研究！')">
+
+onsubmit="handleSubmit()">
 
 <label>年龄</label>
-<input type="number" name="age">
+<input type="number" name="age" required>
+
 
 <label>性别</label>
+
 <select name="gender">
+
 <option>男</option>
+
 <option>女</option>
+
 <option>其他</option>
+
 <option>不愿透露</option>
+
 </select>
+
 
 <label>所在地区</label>
 <input type="text" name="region">
 
+
 <label>最常观看平台</label>
+
 <select name="platform">
+
 <option>抖音</option>
+
 <option>B站</option>
+
 <option>Twitch</option>
+
 <option>快手</option>
+
 <option>其他</option>
+
 </select>
+
 
 <label>是否刷过礼物</label>
+
 <select name="gift">
+
 <option>是</option>
+
 <option>否</option>
+
 </select>
 
-<label>累计刷礼物金额</label>
+
+<label>累计刷礼物金额（人民币）</label>
 <input type="number" name="money">
 
+
 <label>刷礼物主要原因</label>
+
 <select name="reason">
+
 <option>支持主播</option>
+
 <option>陪伴感</option>
+
 <option>PK竞争</option>
+
 <option>社群认同</option>
+
 <option>情绪补偿</option>
+
 <option>其他</option>
+
 </select>
+
 
 <label>直播是否提供陪伴感 (1-10)</label>
 <input type="number" min="1" max="10" name="emotion">
 
-<label>如果可以，请分享你印象最深的一次刷礼物的经历</label>
+
+<label>如果可以，请分享你印象最深的一次刷礼物经历</label>
 <textarea name="experience"></textarea>
+
 
 <label>你对当前直播生态有什么看法</label>
 <textarea name="opinion"></textarea>
 
+
 <label>如果可以改进直播平台，你有什么建议</label>
 <textarea name="suggestion"></textarea>
+
 
 <button class="submit" type="submit">提交问卷</button>
 
 </form>
 
+
+<div id="successMsg">
+
+感谢你的参与！你的回答已经成功提交。
+
+</div>
+
+
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 </section>
+
+
+
+<footer>
+
+Digital Emotional Economy Research Project
+
+</footer>
+
+
+
+<script>
+
+/* 页面切换 */
+
+function showPage(page){
+
+document.querySelectorAll("section").forEach(function(s){
+
+s.classList.remove("active")
+
+})
+
+document.getElementById(page).classList.add("active")
+
+}
+
+
+/* 提交成功提示 */
+
+function handleSubmit(){
+
+setTimeout(function(){
+
+document.getElementById("successMsg").style.display="block"
+
+document.getElementById("surveyForm").reset()
+
+},500)
+
+}
+
+</script>
+
+
+
+</body>
+
+</html>
