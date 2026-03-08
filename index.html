@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>数字情绪经济研究项目</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+font-family:"Microsoft YaHei","Noto Sans CJK JP",sans-serif;
+background:#f3f4f6;
+margin:0;
+}
+
+header{
+padding:30px;
+text-align:center;
+background:#111;
+color:white;
+}
+
+nav{
+padding:12px;
+text-align:center;
+background:#e5e7eb;
+}
+
+nav button{
+margin:5px;
+padding:8px 16px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+section{
+display:none;
+max-width:1100px;
+margin:auto;
+margin-top:20px;
+background:white;
+padding:40px;
+border-radius:10px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.active{display:block}
+
+label{display:block;margin-top:14px;font-weight:600}
+
+input,select,textarea{
+width:100%;
+padding:8px;
+margin-top:6px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button.submit{
+margin-top:20px;
+padding:12px 20px;
+font-size:16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#2563eb;
+color:white;
+}
+
+footer{
+text-align:center;
+padding:20px;
+color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>数字情绪经济研究项目</h1>
+<p>直播刷礼物行为、情绪价值与数字亲密关系调查</p>
+</header>
+
+<nav>
+<button onclick="showPage('intro')">研究介绍</button>
+<button onclick="showPage('survey')">在线问卷</button>
+</nav>
+
+<section id="intro" class="active">
+
+<h2>研究介绍</h2>
+
+<p>
+本研究探索直播平台中的 <b>情绪经济（Emotional Economy）</b>。
+观众通过礼物或打榜提供经济支持，而主播通过互动回应提供情绪价值。
+</p>
+
+<ul>
+<li>为什么观众会刷礼物？</li>
+<li>直播是否提供陪伴感？</li>
+<li>直播关系是否形成数字亲密关系？</li>
+</ul>
+
+<p>
+问卷数据匿名，仅用于学术研究。
+</p>
+
+</section>
+
+
+<section id="survey">
+
+<h2>在线调查问卷</h2>
+
+<form id="surveyForm">
+
+<label>年龄</label>
+<input type="number" name="age">
+
+<label>性别</label>
+<select name="gender">
+<option>男</option>
+<option>女</option>
+<option>其他</option>
+<option>不愿透露</option>
+</select>
+
+<label>所在地区</label>
+<input type="text" name="region">
+
+<label>最常观看平台</label>
+<select name="platform">
+<option>抖音</option>
+<option>B站</option>
+<option>Twitch</option>
+<option>快手</option>
+<option>其他</option>
+</select>
+
+<label>是否刷过礼物</label>
+<select name="gift">
+<option>是</option>
+<option>否</option>
+</select>
+
+<label>累计刷礼物金额</label>
+<input type="number" name="money">
+
+<label>刷礼物主要原因</label>
+<select name="reason">
+<option>支持主播</option>
+<option>陪伴感</option>
+<option>PK竞争</option>
+<option>社群认同</option>
+<option>情绪补偿</option>
+<option>其他</option>
+</select>
+
+<label>直播是否提供陪伴感 (1-10)</label>
+<input type="number" min="1" max="10" name="emotion">
+
+<label>请分享你的刷礼物经历</label>
+<textarea name="experience"></textarea>
+
+<label>你对当前直播生态有什么看法</label>
+<textarea name="opinion"></textarea>
+
+<label>如果可以改进直播平台，你有什么建议</label>
+<textarea name="suggestion"></textarea>
+
+<button class="submit" type="submit">提交问卷</button>
+
+</form>
+
+<p id="msg"></p>
+
+</section>
+
+
+<footer>
+数字情绪经济研究项目 | Academic Research Demo
+</footer>
+
+<script>
+
+function showPage(page){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
+document.getElementById(page).classList.add("active")
+}
+
+/*
+把下面 URL 替换成你的 Google Apps Script Web App URL
+*/
+const ENDPOINT = "PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE";
+
+document.getElementById("surveyForm").addEventListener("submit",function(e){
+
+e.preventDefault()
+
+let formData = new FormData(this)
+
+fetch(ENDPOINT,{
+method:"POST",
+body:formData
+})
+.then(()=>{
+
+document.getElementById("msg").innerText="感谢参与调查！"
+
+this.reset()
+
+})
+.catch(()=>{
+
+document.getElementById("msg").innerText="提交失败，请稍后再试"
+
+})
+
+})
+
+</script>
+
+</body>
+</html>
