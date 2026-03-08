@@ -100,7 +100,7 @@ color:#666;
 <ul>
 <li>为什么观众会刷礼物？</li>
 <li>直播是否提供陪伴感？</li>
-<li>直播关系是否形成数字亲密关系？</li>
+<li>直播关系形成的数字亲密关系是否对现实情感关系产生了影响？</li>
 </ul>
 
 <p>
@@ -161,7 +161,7 @@ color:#666;
 <label>直播是否提供陪伴感 (1-10)</label>
 <input type="number" min="1" max="10" name="emotion">
 
-<label>请分享你的刷礼物经历</label>
+<label>如果可以，请分享你的印象最深的一次刷礼物的经历</label>
 <textarea name="experience"></textarea>
 
 <label>你对当前直播生态有什么看法</label>
@@ -172,7 +172,14 @@ color:#666;
 
 <button class="submit" type="submit">提交问卷</button>
 
-</form>
+<form id="surveyForm"
+      method="POST"
+      action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53CTpj_rPOrr_5wkwAUYtrpkC21INSy_jc4Bsbg/exec"
+      target="hidden_iframe"
+      onsubmit="submitted=true;">
+<form>
+
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 
 <p id="msg"></p>
 
@@ -201,10 +208,6 @@ e.preventDefault()
 
 let formData = new FormData(this)
 
-fetch(ENDPOINT,{
-method:"POST",
-body:formData
-})
 .then(()=>{
 
 document.getElementById("msg").innerText="感谢参与调查！"
