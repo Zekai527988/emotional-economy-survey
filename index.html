@@ -4,15 +4,17 @@
 <head>
 
 <meta charset="UTF-8">
-
 <title>数字情绪经济研究项目</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <style>
 
 body{
-font-family:"Microsoft YaHei",sans-serif;
+font-family:"Microsoft YaHei";
 background:#f3f4f6;
 margin:0;
 }
@@ -69,6 +71,10 @@ border:1px solid #ccc;
 border-radius:6px;
 }
 
+textarea{
+min-height:80px;
+}
+
 button.submit{
 margin-top:25px;
 background:#2563eb;
@@ -80,6 +86,11 @@ cursor:pointer;
 }
 
 canvas{
+margin-top:40px;
+}
+
+#map{
+height:400px;
 margin-top:30px;
 }
 
@@ -94,27 +105,27 @@ color:#666;
 
 </head>
 
+
 <body>
+
 
 <header>
 
-<h1>数字情绪经济研究项目</h1>
+<h1>Digital Emotional Economy Research</h1>
 
-<p>直播刷礼物行为与情绪经济调查</p>
+<p>直播刷客行为与数字亲密关系研究</p>
 
 </header>
+
 
 <nav>
 
 <button onclick="showPage('intro')">研究介绍</button>
-
 <button onclick="showPage('survey')">在线问卷</button>
-
-<button onclick="showPage('stats')">数据统计</button>
+<button onclick="showPage('stats')">数据分析</button>
 
 </nav>
 
-<!-- 研究介绍 -->
 
 <section id="intro">
 
@@ -122,41 +133,45 @@ color:#666;
 
 <p>
 
-本研究探索直播平台中的
+本研究关注直播平台中的情绪经济（Emotional Economy）现象。
 
-<b>情绪经济（Emotional Economy）</b>。
+观众通过虚拟礼物提供经济支持，而主播通过互动回应提供情绪价值。
 
 </p>
 
 <p>
 
-观众通过礼物提供经济支持，
-
-主播通过互动提供情绪价值，
-
-形成一种数字亲密关系。
+研究重点：
 
 </p>
 
 <ul>
 
-<li>为什么观众会刷礼物？</li>
+<li>为什么用户会刷礼物</li>
 
-<li>直播带来什么情绪价值？</li>
+<li>直播互动如何形成数字亲密关系</li>
 
-<li>这种关系是否影响现实情感？</li>
+<li>这种关系是否影响现实情感互动</li>
 
 </ul>
 
 <p>
 
-问卷完全匿名，仅用于学术研究。
+本问卷完全匿名，仅用于学术研究。
 
 </p>
 
+<br>
+
+<a href="paper.pdf" target="_blank">
+
+<button>下载论文 PDF</button>
+
+</a>
+
 </section>
 
-<!-- 问卷 -->
+
 
 <section id="survey">
 
@@ -164,11 +179,9 @@ color:#666;
 
 <form
 
-id="surveyForm"
-
 method="POST"
 
-action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53CTpj_rPOrr_5wkwAUYtrpkC21INSy_jc4Bsbg/exec"
+action="YOUR_GOOGLE_SCRIPT_URL"
 
 target="hidden_iframe"
 
@@ -208,7 +221,7 @@ onsubmit="submitForm()"
 <label>累计刷礼物金额</label>
 <input type="number" name="money">
 
-<label>刷礼物原因</label>
+<label>刷礼物主要原因</label>
 <select name="reason">
 <option>支持主播</option>
 <option>陪伴感</option>
@@ -218,35 +231,55 @@ onsubmit="submitForm()"
 <option>其他</option>
 </select>
 
+<label>直播是否提供陪伴感 (1-10)</label>
+<input type="number" min="1" max="10" name="emotion">
+
+<label>请分享你印象最深的一次刷礼物经历</label>
+<textarea name="experience"></textarea>
+
+<label>你对当前直播生态有什么看法</label>
+<textarea name="opinion"></textarea>
+
+<label>如果可以改进直播平台，你有什么建议</label>
+<textarea name="suggestion"></textarea>
+
 <button class="submit" type="submit">提交问卷</button>
 
 </form>
 
-<div id="success" style="display:none;color:green;margin-top:15px;">
-感谢参与！问卷已提交。
+<div id="success" style="display:none;color:green;margin-top:20px;">
+感谢参与研究！
 </div>
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
 </section>
 
-<!-- 数据统计 -->
+
 
 <section id="stats">
 
-<h2>数据统计</h2>
+<h2>刷客数据分析</h2>
 
 <canvas id="platformChart"></canvas>
 
 <canvas id="reasonChart"></canvas>
 
+<h2>用户地区分布</h2>
+
+<div id="map"></div>
+
 </section>
+
+
 
 <footer>
 
 Digital Emotional Economy Research Project
 
 </footer>
+
+
 
 <script>
 
@@ -265,31 +298,30 @@ function submitForm(){
 setTimeout(function(){
 
 document.getElementById("success").style.display="block";
-document.getElementById("surveyForm").reset();
 
-},500);
+},500)
 
 }
 
-/* 数据统计 */
+
+
+/* 读取GoogleSheet数据 */
 
 fetch("https://opensheet.elk.sh/YOUR_SHEET_ID/Sheet1")
 
-.then(res => res.json())
+.then(res=>res.json())
 
-.then(data => {
+.then(data=>{
 
-let platform = {};
-let reason = {};
+let platform={}
+let reason={}
 
 data.forEach(row=>{
 
-platform[row.platform] = (platform[row.platform]||0)+1;
-reason[row.reason] = (reason[row.reason]||0)+1;
+platform[row.platform]=(platform[row.platform]||0)+1
+reason[row.reason]=(reason[row.reason]||0)+1
 
-});
-
-/* 平台统计 */
+})
 
 new Chart(document.getElementById("platformChart"),{
 
@@ -303,9 +335,7 @@ data:Object.values(platform)
 }]
 }
 
-});
-
-/* 刷礼物原因 */
+})
 
 new Chart(document.getElementById("reasonChart"),{
 
@@ -319,9 +349,19 @@ data:Object.values(reason)
 }]
 }
 
-});
+})
 
-});
+})
+
+
+
+/* 地图 */
+
+var map = L.map('map').setView([30, 110], 3)
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+
+}).addTo(map)
 
 </script>
 
