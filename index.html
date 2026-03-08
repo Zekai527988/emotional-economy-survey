@@ -2,10 +2,14 @@
 <html lang="zh">
 
 <head>
+
 <meta charset="UTF-8">
+
 <title>数字情绪经济研究项目</title>
 
 <style>
+
+/* 页面基础 */
 
 body{
 font-family:"Microsoft YaHei",sans-serif;
@@ -25,23 +29,23 @@ color:white;
 /* 导航 */
 
 nav{
-padding:12px;
+padding:15px;
 text-align:center;
 background:#e5e7eb;
 }
 
 nav button{
-margin:5px;
-padding:10px 18px;
+margin:6px;
+padding:10px 20px;
 border:none;
 border-radius:6px;
-cursor:pointer;
 background:#2563eb;
 color:white;
-font-size:14px;
+cursor:pointer;
+font-size:15px;
 }
 
-/* 页面区域 */
+/* 内容区域 */
 
 section{
 display:none;
@@ -54,7 +58,9 @@ border-radius:10px;
 box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.active{
+/* 默认页面 */
+
+#intro{
 display:block;
 }
 
@@ -62,7 +68,7 @@ display:block;
 
 label{
 display:block;
-margin-top:18px;
+margin-top:20px;
 font-weight:600;
 }
 
@@ -73,21 +79,22 @@ margin-top:6px;
 border:1px solid #ccc;
 border-radius:6px;
 font-size:14px;
+background:white;
 }
 
 textarea{
-min-height:80px;
+min-height:90px;
 }
 
 button.submit{
 margin-top:25px;
-padding:14px 22px;
+padding:14px 24px;
 font-size:16px;
 border:none;
 border-radius:8px;
-cursor:pointer;
 background:#2563eb;
 color:white;
+cursor:pointer;
 }
 
 /* 成功提示 */
@@ -105,15 +112,18 @@ border-radius:6px;
 
 footer{
 text-align:center;
-padding:25px;
+padding:30px;
 color:#666;
 margin-top:30px;
 }
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -124,11 +134,12 @@ margin-top:30px;
 </header>
 
 
+
 <nav>
 
-<button onclick="showPage('intro')">研究介绍</button>
+<button type="button" onclick="showPage('intro')">研究介绍</button>
 
-<button onclick="showPage('survey')">在线问卷</button>
+<button type="button" onclick="showPage('survey')">在线问卷</button>
 
 </nav>
 
@@ -136,17 +147,26 @@ margin-top:30px;
 
 <!-- 研究介绍 -->
 
-<section id="intro" class="active">
+<section id="intro">
 
 <h2>研究介绍</h2>
 
 <p>
-本研究探索直播平台中的 <b>情绪经济（Emotional Economy）</b>。
+
+本研究旨在探索直播平台中的
+
+<b>情绪经济（Emotional Economy）</b>现象。
+
 </p>
 
 <p>
-观众通过礼物或打榜提供经济支持，而主播通过互动回应提供情绪价值，
+
+在直播互动中，观众通过礼物或打榜提供经济支持，
+
+而主播通过互动回应提供情绪价值，
+
 从而形成一种特殊的数字互动关系。
+
 </p>
 
 <ul>
@@ -160,7 +180,9 @@ margin-top:30px;
 </ul>
 
 <p>
+
 本问卷完全匿名，所有数据仅用于学术研究。
+
 </p>
 
 </section>
@@ -173,7 +195,9 @@ margin-top:30px;
 
 <h2>在线调查问卷</h2>
 
-<form id="surveyForm"
+<form
+
+id="surveyForm"
 
 method="POST"
 
@@ -181,7 +205,9 @@ action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53
 
 target="hidden_iframe"
 
-onsubmit="handleSubmit()">
+onsubmit="handleSubmit()"
+
+>
 
 <label>年龄</label>
 <input type="number" name="age" required>
@@ -278,9 +304,10 @@ onsubmit="handleSubmit()">
 </form>
 
 
+
 <div id="successMsg">
 
-感谢你的参与！你的回答已经成功提交。
+感谢你的参与！问卷已经成功提交。
 
 </div>
 
@@ -305,15 +332,14 @@ Digital Emotional Economy Research Project
 
 function showPage(page){
 
-document.querySelectorAll("section").forEach(function(s){
+document.getElementById("intro").style.display="none"
 
-s.classList.remove("active")
+document.getElementById("survey").style.display="none"
 
-})
-
-document.getElementById(page).classList.add("active")
+document.getElementById(page).style.display="block"
 
 }
+
 
 
 /* 提交成功提示 */
