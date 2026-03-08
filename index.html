@@ -114,7 +114,11 @@ color:#666;
 
 <h2>在线调查问卷</h2>
 
-<form id="surveyForm">
+<form 
+method="POST"
+action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53CTpj_rPOrr_5wkwAUYtrpkC21INSy_jc4Bsbg/exec"
+target="hidden_iframe"
+onsubmit="alert('提交成功，感谢参与研究！')">
 
 <label>年龄</label>
 <input type="number" name="age">
@@ -172,56 +176,8 @@ color:#666;
 
 <button class="submit" type="submit">提交问卷</button>
 
-<form 
-method="POST"
-action="https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53CTpj_rPOrr_5wkwAUYtrpkC21INSy_jc4Bsbg/exec"
-target="hidden_iframe">
-<form>
+</form>
 
-<p id="msg"></p>
+<iframe name="hidden_iframe" style="display:none;"></iframe>
 
 </section>
-
-
-<footer>
-数字情绪经济研究项目 | Academic Research Demo
-</footer>
-
-<script>
-
-function showPage(page){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"))
-document.getElementById(page).classList.add("active")
-}
-
-/*
-把下面 URL 替换成你的 Google Apps Script Web App URL
-*/
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbwFTdSFcSv2nJ9b3IfTVpXKmPAqnyM53CTpj_rPOrr_5wkwAUYtrpkC21INSy_jc4Bsbg/exec";
-
-document.getElementById("surveyForm").addEventListener("submit",function(e){
-
-e.preventDefault()
-
-let formData = new FormData(this)
-
-.then(()=>{
-
-document.getElementById("msg").innerText="感谢参与调查！"
-
-this.reset()
-
-})
-.catch(()=>{
-
-document.getElementById("msg").innerText="提交失败，请稍后再试"
-
-})
-
-})
-
-</script>
-
-</body>
-</html>
-<iframe name="hidden_iframe" style="display:none;"></iframe>
